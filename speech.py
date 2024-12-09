@@ -20,7 +20,7 @@ class FaceAndVoiceControl:
 
     def detect_face(self):
         """Detect face using OpenCV."""
-        cap = cv2.VideoCapture(0)  # Open the webcam
+        cap = cv2.VideoCapture(1)  # Use index 1 for external webcam
         if not cap.isOpened():
             print("Error: Could not access the webcam.")
             return
@@ -30,6 +30,9 @@ class FaceAndVoiceControl:
             if not ret:
                 print("Error: Failed to capture video frame.")
                 break
+
+            # Flip the frame horizontally for a mirror effect
+            frame = cv2.flip(frame, 1)
 
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
             faces = self.face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
@@ -116,6 +119,3 @@ class FaceAndVoiceControl:
 if __name__ == "__main__":
     control_system = FaceAndVoiceControl()
     control_system.run()
-
-
-
